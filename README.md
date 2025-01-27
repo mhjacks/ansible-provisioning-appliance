@@ -9,6 +9,22 @@ real software deliverables.
 The essence of this idea is to provide a stable and reliable platform for instantiating a larger
 infrastructure that can be used in multiple cloud scenarios (that is, hyperscalers and bare metal).
 
+Design goals for what this appliance framework should do:
+* Be able to inject this "appliance" into an environment (i.e. hyperscaler availability zone, or an on-prem data center) and be able, from this appliance, to execute a GitOps workflow for provisioning other workloads.
+* When the provisioning is complete, it should be possible to archive the logs from doing the provisioning work as a single artifact for future reference or troubleshooting.
+* Once provisioning is complete and logs have been retrieved, it should be possible to decommission the appliance and
+remove it from the network environment. (That is - the appliance is not essential to the ongoing maintenance of the
+environment that it provisions and in fact should provide suitable solutions for the ongoing maintenance of provisioned
+environments as part of the provisioning process.)
+
+Non-functional design goals for how this framework should work:
+* It should support as many hosting environments as possible. Initially, it should support hyperscalers (i.e. AWS) and bare metal. It should have line of sight to supporting disconnected networks, but that may not be a day-1 deliverable. Support of a particular hosting environment should not be predicated on the appliance being hosted in that environment directly. (Thus, it should be possible to build the appliance on baremetal and have it provision infrastructure in AWS.)
+* Rather than being a solution for managing a particular provisioning workflow, it should strive to enable arbitrary
+provisioning workflows, and be expandable to support tooling and workflows beyond what has initially been considered.
+* Scalability of the provisioning system itself is secondary to architectural flexibility. That is, scaling the provisioning system vertically (i.e. by adding more processing, memory, storage) is preferable to the complexity that would be incurred by scaling the system horizontally.
+* The value of this kind of systems lies in the aggregation and integration of functionality rather than in the
+creation of new installers for existing products.
+
 The offering should focus on being the container and execution environment for defining and building
 larger components of infrastructure in a repeatable mechanism. The offering must provide tooling suitable
 for bootstrapping the appliance environment, and then the workload that runs on the appliance environment
